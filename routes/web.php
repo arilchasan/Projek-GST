@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ButtonController;
 use App\Http\Controllers\ForgotController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ResetPasswordController;
 
 /*
@@ -29,8 +33,23 @@ Route::prefix('/auth')->group(function () {
     Route::post('/reset-password',[ForgotController::class, 'forgot']);
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showresetForm'])->name('password.reset');
     Route::post('/reset-password/{token}', [ResetPasswordController::class, 'reset'])->name('password.update');
+    Route::get('/logout',[UserController::class, 'logout']);
+    Route::get('/login-admin',[AdminController::class, 'loginAdminForm']);
+    Route::post('/login-admin-add',[AdminController::class, 'loginPost']);
+    Route::get('/logout-admin',[AdminController::class, 'logout']);
 });
 
 Route::get('/home', function () {
     return view('home');
 })->middleware('auth');
+Route::post('/upload', [TaxController::class, 'uploadExcel'])->name('upload.excel')->middleware('auth');
+Route::get('button', [ButtonController::class, 'index'])->name('button')->middleware('auth');
+Route::get('/uploaded-file', [UserController::class, 'userFile'])->name('uploaded.file')->middleware('auth');
+
+
+//dashboard route
+Route::prefix('/dashboard')->middleware('admin.auth')->group( function(){
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/user', [DashboardController::class, 'user'])->name('user');
+    Route::get('/user-file/{id}', [DashboardController::class, 'fileUser'])->name('file.user');
+});

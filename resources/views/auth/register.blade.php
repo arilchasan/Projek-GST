@@ -1,14 +1,14 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.tailwindcss.com"></script>
-{{-- logo atas bar --}}
-<link rel="icon" type="image/x-icon" href="/assets/icons.jpeg" />
-<title>Daftar</title>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sign Up</title>
+</head>
 
 {{-- form --}}
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg">
-        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Daftar GST
+        {{-- <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg"> --}}
+        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign Up GST
         </h2>
     </div>
 
@@ -50,14 +50,14 @@
                 </div>
             </div>
             <div>
-                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Nama</label>
+                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
                     <input id="name" name="name" type="text" autocomplete="name" required
                         class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
             <div>
-                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">No.Telepon</label>
+                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                 <div class="mt-2">
                     <input id="telp" name="telp" type="text" autocomplete="telp" required
                         class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -80,10 +80,11 @@
 
             <div>
                 <button type="submit"
-                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Daftar</button>
+                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
+                    Up</button>
             </div>
         </form>
-        <p>Sudah memiliki akun? <a href="/auth/login" class="font-semibold hover:underline">Login</a></p>
+        <p>Already have account? <a href="/auth/login" class="font-semibold hover:underline">Sign In</a></p>
     </div>
 </div>
 

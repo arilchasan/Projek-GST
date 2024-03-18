@@ -1,10 +1,12 @@
+<head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="icon" type="image/x-icon" href="/assets/icons.jpeg" />
+</head>
+
 
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg">
+        {{-- <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg"> --}}
         <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Reset Password
         </h2>
     </div>
@@ -47,7 +49,7 @@
                         class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
-            
+
             <div>
                 <div class="flex items-center justify-between">
                     <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password
@@ -66,7 +68,7 @@
             <div>
                 <div class="flex items-center justify-between">
                     <label for="password_confirmation"
-                        class="block text-sm font-medium leading-6 text-gray-900">Konfirmasi Password</label>
+                        class="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
                 </div>
                 <div class="mt-2 relative">
                     <input id="password_confirmation" name="password_confirmation" type="password" required
@@ -85,7 +87,7 @@
                     Password</button>
             </div>
         </form>
-        <p>Sudah punya akun? <a href="/auth/login" class="font-semibold hover:underline">Login</a></p>
+        <p>Already have account? <a href="/auth/login" class="font-semibold hover:underline">Sign In</a></p>
     </div>
 </div>
 

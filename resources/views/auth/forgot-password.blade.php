@@ -1,12 +1,13 @@
+<head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="icon" type="image/x-icon" href="/assets/icons.jpeg" />
 <title>Reset Password</title>
+</head>
 
 {{-- form --}}
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg">
+        {{-- <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg"> --}}
         <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Reset Password
         </h2>
     </div>
@@ -25,7 +26,7 @@
         </div>
     @endif
     @if (session()->has('status'))
-        <div class="w-1/4 relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mt-5"
+        <div class="w-1/3 relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mt-5"
             style="height: 50px;" role="alert" id="success-alert">
             <p>{{ session('status') }}</p>
             <span class="absolute inset-y-0 right-0 flex items-center mr-4" onclick="closeAlert('success-alert')">
@@ -54,7 +55,7 @@
                     class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Reset Password</button>
             </div>
         </form>
-        <p>Sudah punya akun? <a href="/auth/login" class="font-semibold hover:underline">Login</a></p>
+        <p>All readey have account? <a href="/auth/login" class="font-semibold hover:underline">Sign In</a></p>
     </div>
 </div>
 

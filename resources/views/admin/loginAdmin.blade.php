@@ -1,7 +1,7 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
-<title>Sign In</title>
+<title>Sign In Admin</title>
 </head>
 
 
@@ -9,7 +9,7 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
         {{-- <img class="mx-auto h-50 w-1/4" src="/assets/icons.jpeg"> --}}
-        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign In GST
+        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign In Admin GST
         </h2>
     </div>
 
@@ -41,12 +41,12 @@
     @endif
 
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-3" action="/auth/login-add" method="POST">
+        <form class="space-y-3" action="/auth/login-admin-add" method="POST">
             @csrf
             <div>
-                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                 <div class="mt-2">
-                    <input id="email" name="email" type="email" autocomplete="email" required
+                    <input id="username" name="username" type="text" autocomplete="username" required
                         class="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
@@ -64,16 +64,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between text-sm mb-2">
-                <a href="/auth/forgot-password" class="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline">Forgot password?</a>
-                <a href="/auth/login-admin" class="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline">Sign In as Admin</a>
-            </div>
             <div>
                 <button type="submit"
                     class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign In</button>
             </div>
         </form>
-        <p>Don't have an account? <a href="/auth/register" class="font-semibold hover:underline">Sign Up</a></p>
+        <a href="/auth/login" class="font-semibold text-indigo-600 hover:text-indigo-500  hover:underline">Sign In as User</a>
     </div>
 </div>
 

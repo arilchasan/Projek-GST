@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Tax;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class UserController extends Controller
             return response()->json(['message' => 'User registered successfully', 'user' => $user]);
         }
 
-        return redirect('/auth/login')->with('success', 'Berhasil mendaftar!');
+        return redirect('/auth/login')->with('success', 'Register Success! Please login.');
     }
 
     public function loginForm()
@@ -56,32 +57,38 @@ class UserController extends Controller
 
 
         if (!Hash::check($request->password, $user->password)) {
-            return redirect()->back()->with('error', 'Password salah!');
+            return redirect()->back()->with('error', 'Wrong password.');
         }
 
         if (!$user) {
-            return redirect()->back()->with('error', 'Email tidak terdaftar.');
+            return redirect()->back()->with('error', 'Email not registered.');
         }
 
         if ($user->status == 'nonactive') {
-            return redirect()->back()->with('error', 'Akun Anda tidak aktif.');
+            return redirect()->back()->with('error', 'Account not active. Please contact admin.');
         }
 
 
         if ($user->expired_at && $user->expired_at < Carbon::now('Asia/Jakarta')) {
+            $user->update(['status' => 'nonactive']);
             Auth::logout();
-            return redirect()->back()->with('error', 'Akun Anda telah kedaluwarsa.');
+            return redirect()->back()->with('error', 'Account expired. Please contact admin.');
         }
 
 
         //$token = $user->createToken('authToken')->plainTextToken;
-
-        return redirect('/home')->with('success', 'Berhasil login!');
+        return redirect('/home')->with('success', 'Login Success!');
     }
 
     public function logout()
     {
         Auth::logout();
-        return redirect('/auth/login')->with('success', 'Berhasil logout!');
+        return redirect('/auth/login')->with('success', 'Logout Success!');
+    }
+
+    public function userFile()
+    {
+        $tax = Tax::where('user_id', Auth::user()->id)->get();
+        return view('userFile', compact('tax'));
     }
 }

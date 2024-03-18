@@ -36,7 +36,7 @@ class ResetPasswordController extends Controller
         );
         //dd($status);
         return $status == Password::PASSWORD_RESET
-            ? redirect('/auth/login')->with('success', 'Password berhasil direset!')
+            ? redirect('/auth/login')->with('success', 'Passsword has been reset!')
             : back()->withInput()->withErrors(['email' => [__($status)]]);
     }
 }
