@@ -46,7 +46,7 @@ class B2BExport implements FromCollection, WithHeadings, ShouldAutoSize, WithSty
                 'Place Of Supply' => $firstItem['StateCode_Name'] ?? '',
                 'Reverse Charge' => 'N',
                 'Applicable % of Tax Rate' => '' ?? '',
-                'Invoice Type' => 'Intra-State supplies attracting IGST',
+                'Invoice Type' => $igstAmount !== 0 ? 'Intra-State supplies attracting IGST' : 'Regular B2B',
                 'E-Commerce GSTIN' => '',
                 'IGST' => isset( $igstAmount) ? ( $igstAmount !== 0 ?  $igstAmount : '0') : '0',
                 'Rate' =>  isset($firstItem['GSTRate']) ? ($firstItem['GSTRate'] !== 0 ? $firstItem['GSTRate'] : '0') : '0',
