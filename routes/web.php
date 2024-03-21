@@ -43,9 +43,12 @@ Route::get('/home', function () {
     return view('home');
 })->middleware('auth');
 Route::post('/upload', [TaxController::class, 'uploadExcel'])->name('upload.excel')->middleware('auth');
-Route::get('button', [ButtonController::class, 'index'])->name('button')->middleware('auth');
+Route::get('/button/{filename}', [ButtonController::class, 'index'])->name('button')->middleware('auth');
 Route::get('/uploaded-file', [UserController::class, 'userFile'])->name('uploaded.file')->middleware('auth');
-
+Route::prefix('/export')->middleware('auth')->group(function(){
+    Route::get('/b2b/{filename}', [ButtonController::class, 'exportB2B'])->name('export.b2b');
+    Route::get('/b2cs/{filename}', [ButtonController::class, 'exportB2CS'])->name('export.b2cs');
+});
 
 //dashboard route
 Route::prefix('/dashboard')->middleware('admin.auth')->group( function(){

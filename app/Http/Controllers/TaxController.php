@@ -70,11 +70,13 @@ class TaxController extends Controller
                 }
                 $jsonData[] = $rowData;
             }
-
+            $randomChars = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            $randomChars = substr($randomChars, 0, 5);
+            $uniqueFileName = $randomChars . '_' . $file->getClientOriginalName();
 
             $tax = new Tax();
             $tax->file_path = $filePath;
-            $tax->file_name = $file->getClientOriginalName();
+            $tax->file_name = $uniqueFileName;
             $tax->user_id = auth()->id();
             $tax->data = json_encode($jsonData);
             $tax->created_at = Carbon::now('Asia/Jakarta')->toDateTimeString();
@@ -84,11 +86,10 @@ class TaxController extends Controller
             activity()
                 ->withProperties(['url' => asset($filePath)])
                 ->log(auth()->user()->name . ' uploaded a file.');
-            return redirect('/button')->with('success', 'Success upload file');
+            return redirect()->route('button', ['filename' =>  $tax->file_name])->with('success', 'Success upload file');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', $e->getMessage());
-
         }
     }
 
