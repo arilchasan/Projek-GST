@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Tax;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,6 @@ class TaxController extends Controller
             ]);
 
             $file = $request->file('file');
-            $filePath = $file->store('data', 'public');
             $spreadsheet = IOFactory::load($file);
             $worksheet = $spreadsheet->getActiveSheet();
             $highestRow = $worksheet->getHighestRow();
@@ -70,12 +70,13 @@ class TaxController extends Controller
                 }
                 $jsonData[] = $rowData;
             }
-            $randomChars = str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            $randomChars = substr($randomChars, 0, 5);
-            $uniqueFileName = $randomChars . '_' . $file->getClientOriginalName();
+
+            $uniqueFileName = Str::random(5) . '_' . $file->getClientOriginalName();
+            $filePath = $file->move(public_path('/assets/data'), $uniqueFileName);
+            $relativePath = str_replace(public_path(), '', $filePath);
 
             $tax = new Tax();
-            $tax->file_path = $filePath;
+            $tax->file_path = $relativePath;
             $tax->file_name = $uniqueFileName;
             $tax->user_id = auth()->id();
             $tax->data = json_encode($jsonData);
@@ -84,7 +85,7 @@ class TaxController extends Controller
 
             DB::commit();
             activity()
-                ->withProperties(['url' => asset($filePath)])
+                ->withProperties(['url' => asset($relativePath)])
                 ->log(auth()->user()->name . ' uploaded a file.');
             return redirect()->route('button', ['filename' =>  $tax->file_name])->with('success', 'Success upload file');
         } catch (\Exception $e) {

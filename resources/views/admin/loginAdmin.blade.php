@@ -14,7 +14,7 @@
     </div>
 
     @if (session()->has('error'))
-        <div class="w-1/4 relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mt-5"
+        <div class="w-[400px]relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mt-5"
             style="height: 50px;" role="alert" id="error-alert">
             <p>{{ session('error') }}</p>
             <span class="absolute inset-y-0 right-0 flex items-center mr-4" onclick="closeAlert('error-alert')">
@@ -27,7 +27,7 @@
         </div>
     @endif
     @if (session()->has('success'))
-        <div class="w-1/4 relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mt-5"
+        <div class="w-[400px] relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mt-5"
             style="height: 50px;" role="alert" id="success-alert">
             <p>{{ session('success') }}</p>
             <span class="absolute inset-y-0 right-0 flex items-center mr-4" onclick="closeAlert('success-alert')">
@@ -81,10 +81,10 @@
 
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            passwordIcon.className = "far fa-eye-slash"; // Change to the eye-slash icon
+            passwordIcon.className = "far fa-eye-slash";
         } else {
             passwordField.type = "password";
-            passwordIcon.className = "far fa-eye"; // Change back to the eye icon
+            passwordIcon.className = "far fa-eye";
         }
     }
 

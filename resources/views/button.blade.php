@@ -46,7 +46,7 @@
                     <h3 class="text-2xl font-semibold">B2C-Small</h3>
                     <p class="text-sm">Other than B2B & B2C-L</p>
                 </button>
-                <button
+                <button id="hsnButton" data-filename="{{ $file->file_name }}"
                     class="w-full py-2 px-4 bg-[#be185d] hover:bg-[#9d174d] text-white font-normal rounded shadow-md">
                     <h3 class="text-2xl font-semibold">HSN Report</h3>
                     <p class="text-sm">Summary of HSN Codes</p>
@@ -80,17 +80,25 @@
 <script>
     var b2bButton = document.getElementById('b2bButton');
     var b2clButton = document.getElementById('b2csButton');
+    var hsnButton = document.getElementById('hsnButton');
 
     b2bButton.addEventListener('click', function() {
         var filename = b2bButton.getAttribute('data-filename');
-        var url = "{{ route('export.b2b', ['filename' => ':filename']) }}";
+        var url = "{{ route('show.b2b', ['filename' => ':filename']) }}";
         url = url.replace(':filename', encodeURIComponent(filename));
         window.location.href = url;
     });
 
     b2clButton.addEventListener('click', function() {
         var filename = b2bButton.getAttribute('data-filename');
-        var url = "{{ route('export.b2cs', ['filename' => ':filename']) }}";
+        var url = "{{ route('show.b2cs', ['filename' => ':filename']) }}";
+        url = url.replace(':filename', encodeURIComponent(filename));
+        window.location.href = url;
+    });
+
+    hsnButton.addEventListener('click', function() {
+        var filename = b2bButton.getAttribute('data-filename');
+        var url = "{{ route('show.hsn', ['filename' => ':filename']) }}";
         url = url.replace(':filename', encodeURIComponent(filename));
         window.location.href = url;
     });

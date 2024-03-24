@@ -46,8 +46,12 @@ Route::post('/upload', [TaxController::class, 'uploadExcel'])->name('upload.exce
 Route::get('/button/{filename}', [ButtonController::class, 'index'])->name('button')->middleware('auth');
 Route::get('/uploaded-file', [UserController::class, 'userFile'])->name('uploaded.file')->middleware('auth');
 Route::prefix('/export')->middleware('auth')->group(function(){
-    Route::get('/b2b/{filename}', [ButtonController::class, 'exportB2B'])->name('export.b2b');
-    Route::get('/b2cs/{filename}', [ButtonController::class, 'exportB2CS'])->name('export.b2cs');
+    Route::get('/b2b/{filename}', [ButtonController::class, 'showB2B'])->name('show.b2b');
+    Route::get('/b2b/{data}/export', [ButtonController::class, 'exportB2B'])->name('export.b2b');
+    Route::get('/b2cs/{filename}', [ButtonController::class, 'showB2CS'])->name('show.b2cs');
+    Route::get('/b2cs/{data}/export', [ButtonController::class, 'exportB2CS'])->name('export.b2cs');
+    Route::get('/hsn/{filename}', [ButtonController::class, 'showHSN'])->name('show.hsn');
+    Route::get('/hsn/{data}/export', [ButtonController::class, 'exportHSN'])->name('export.hsn');
 });
 
 //dashboard route
@@ -55,4 +59,6 @@ Route::prefix('/dashboard')->middleware('admin.auth')->group( function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/user', [DashboardController::class, 'user'])->name('user');
     Route::get('/user-file/{id}', [DashboardController::class, 'fileUser'])->name('file.user');
+    Route::get('/active-user/{id}', [DashboardController::class, 'activeUser'])->name('active.user');
+    Route::get('/nonactive-user/{id}', [DashboardController::class, 'nonActiveUser'])->name('nonActive.user');
 });

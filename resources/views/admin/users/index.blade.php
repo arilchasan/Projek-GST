@@ -2,7 +2,7 @@
 
 @section('container')
     @if (session()->has('error'))
-        <div class="w-1/1 relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mt-5 mb-2 mr-3"
+        <div class="w-1/1 relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg mb-2 mx-auto"
             style="height: 50px;" role="alert" id="error-alert">
             <p>{{ session('error') }}</p>
             <span class="absolute inset-y-0 right-0 flex items-center mr-4" onclick="closeAlert('error-alert')">
@@ -15,7 +15,7 @@
         </div>
     @endif
     @if (session()->has('success'))
-        <div class="w-1/1 relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mt-5 mb-2 mr-3"
+        <div class="w-1/1 relative py-3 pl-4 pr-10 leading-normal text-green-700 bg-green-100 rounded-lg mb-2 mx-auto"
             style="height: 50px;" role="alert" id="success-alert">
             <p>{{ session('success') }}</p>
             <span class="absolute inset-y-0 right-0 flex items-center mr-4" onclick="closeAlert('success-alert')">
@@ -27,14 +27,32 @@
             </span>
         </div>
     @endif
-@section('head')
-    {{-- Link CDN Bootstrap hanya ada di sini --}}
+<head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="/assets/table.css"> --}}
-@endsection
+</head>
 <style>
     @import url('/assets/table.css');
+
+    @media only screen and (max-width: 767px) {
+            .table-responsive {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .table-responsive table {
+                min-width: 100%;
+            }
+
+            .table-responsive table thead tr th,
+            .table-responsive table tbody tr td {
+                min-width: auto !important;
+            }
+
+            .table-responsive table thead tr th {
+                white-space: nowrap;
+            }
+        }
 </style>
 <!-- component -->
 <div class="card shadow m-2 p-3">
@@ -46,10 +64,11 @@
         <table id="user-table" class="table align-items-center table-flush ">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col" style="width: 30%">Name</th>
-                    <th scope="col" style="width: 30%">Email</th>
-                    <th scope="col" style="width: 25%">Expired</th>
-                    <th scope="col" style="width: 15%">File</th>
+                    <th scope="col" style="width: 20%">Name</th>
+                    <th scope="col" style="width: 20%">Email</th>
+                    <th scope="col" style="width: 20%">Status</th>
+                    <th scope="col" style="width: 20%">Expired At</th>
+                    <th scope="col" style="width: 20%">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -126,13 +145,12 @@
                     }
                 },
                 {
-                    data: 'expired',
-                    name: 'expired',
+                    data: 'status',
+                    name: 'status',
                     ordering: true,
                     search: true,
-                    orderSequence: ['desc', 'asc'],
                     render: function(data, type, row, meta) {
-                        if (data === 'Active') {
+                        if (data === 'active') {
                             return `<td class="text-start">
                         <span class="text-center align-baseline inline-flex px-4 py-3 items-center font-semibold text-[.95rem] leading-none text-green-500 bg-green-200 rounded-lg">
                             ${data}
@@ -145,6 +163,23 @@
                         </span>
                     </td>`;
                         }
+                    }
+                },
+                {
+                    data: 'expired_at',
+                    name: 'expired_at',
+                    ordering: true,
+                    search: true,
+                    orderSequence: ['desc', 'asc'],
+                    render: function(data, type, row, meta) {
+                        return `
+                            <th scope="row">
+                                <div class="media">
+                                    <div class="media-body">
+                                      ${data}
+                                    </div>
+                                </div>
+                            </th>`;
                     }
                 },
                 {

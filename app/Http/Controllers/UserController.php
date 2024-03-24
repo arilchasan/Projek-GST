@@ -32,7 +32,7 @@ class UserController extends Controller
             'name' => $request->name,
             'telp' => $request->telp,
             'password' => Hash::make($request->password),
-            'status' => 'active',
+            'status' => 'nonactive',
             'expired_at' => Carbon::now('Asia/Jakarta')->addDays(365)->toDateTimeString(),
         ]);
         if ($request->wantsJson()) {
@@ -56,12 +56,13 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
 
 
-        if (!Hash::check($request->password, $user->password)) {
-            return redirect()->back()->with('error', 'Wrong password.');
-        }
 
         if (!$user) {
             return redirect()->back()->with('error', 'Email not registered.');
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect()->back()->with('error', 'Wrong password.');
         }
 
         if ($user->status == 'nonactive') {

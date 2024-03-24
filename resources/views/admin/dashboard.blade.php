@@ -27,14 +27,14 @@
             </span>
         </div>
     @endif
-    
-@section('head')
+
+{{-- @section('head')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 @endsection
 <style>
     @import url('/assets/table.css');
-</style>
+</style> --}}
 
 <div class="container">
     <div class="row">
@@ -45,7 +45,6 @@
 </div>
 
 
-<!-- component -->
 <div class="flex-1 bg-[#f3f4f6] rounded-lg shadow-xl mt-4 p-8 mr-3 relative z-10">
     <h4 class="text-xl text-gray-900 font-bold">Activity log</h4>
     <div class="relative px-4">
@@ -56,12 +55,15 @@
                     <div class="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
                 </div>
                 @php
-                    $propertiesArray = json_decode($i->properties, true);
-                    $url = $propertiesArray['url'];
+                    $properties = json_decode($i->properties);
+                    $url = $properties->url;
+                    $processedUrl = str_replace(['\\', '\/'], '/',url($url));
                 @endphp
+
                 <div class="w-11/12">
                     <p class="text-sm">{{ $i->description }}</p>
-                    <a href="{{ url('/storage' . $url) }}" class="text-xs text-gray-500 hover:underline">Lihat File</a>
+                    <a href="{{ $processedUrl }}"
+                        class="text-xs text-gray-500 hover:underline">Lihat File</a>
                 </div>
             </div>
         @endforeach

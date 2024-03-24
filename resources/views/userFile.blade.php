@@ -17,8 +17,10 @@
                     <p class="text-sm text-gray-600">Uploaded at: {{ date('H:i j F, Y', strtotime($i->created_at)) }}
                     </p>
                 </div>
-                <div class="bg-gray-100 px-4 py-3 flex justify-end">
-                    <a href="{{ url('/storage/' . $i->file_path) }}"
+                <div class="bg-gray-100 px-4 py-3 flex justify-between">
+                    <a href="{{  route('button',['filename' => $i->file_name]) }}"
+                        class="text-blue-500 hover:text-blue-700 font-semibold">Button Menu</a>
+                    <a href="{{ str_replace('\\', '/', url($i->file_path)) }}"
                         class="text-blue-500 hover:text-blue-700 font-semibold">Download</a>
                 </div>
             </div>

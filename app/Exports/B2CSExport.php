@@ -11,42 +11,57 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class B2CSExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths
+class B2CSExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithTitle
 {
     /**
      * @return \Illuminate\Support\Collection
      */
     protected $data;
+    protected $sheetTitle = 'b2cs';
 
 
     public function __construct(array $data)
     {
         $this->data = $data;
+        $this->sheetTitle = 'b2cs';
     }
 
     public function collection()
     {
+        $filteredData = collect($this->data)->filter(function ($item) {
+            return $item['RegistrationType'] === 'UnRegistered' && $item['DocumentValue'] && $item['GSTRate'] !== 0 ;
+        });
+        $dateFilter = $filteredData->sortBy(['StateCode_Name', 'GSTRate'] , SORT_NATURAL | SORT_FLAG_CASE);
 
-        $groupedData = collect($this->data)->groupBy(function ($item) {
-            return $item['DocumentNumber'] . '_' . $item['GSTRate'];
+        $sortedData =  $dateFilter->groupBy(function ($item) {
+            return $item['StateCode_Name'] . '_' . $item['GSTRate'];
         })->map(function ($group) {
             $firstItem = $group->first();
             $taxableAmount = $group->sum('TaxableAmount');
             $cessAmount = $group->sum('CESS');
+            $igstAmount = $group->sum('IGST');
             return [
                 'Type' => 'OE',
                 'Place Of Supply' => $firstItem['StateCode_Name'] ?? '',
                 'Applicable % of Tax Rate' => '',
-                'Rate' => ($firstItem['GSTRate'] ?? '0'),
+                'Rate' => isset($firstItem['GSTRate']) ? ($firstItem['GSTRate'] !== 0 ? $firstItem['GSTRate'] : '0') : '0',
+                //'IGST' => isset($igstAmount) ? ($igstAmount !== 0 ?  $igstAmount : '0') : '0',
                 'Taxable Value' => isset($taxableAmount) ? ($taxableAmount !== 0 ? $taxableAmount : '0') : '0',
                 'Cess Amount' => isset($cessAmount) ? ($cessAmount !== 0 ? $cessAmount : '0') : '0',
                 'E-Commerce GSTIN' => '',
             ];
         });
 
-        return $groupedData;
+
+        return $sortedData;
+    }
+
+    public function title(): string
+    {
+        return $this->sheetTitle;
     }
 
     public function headings(): array
@@ -83,6 +98,7 @@ class B2CSExport implements FromCollection, WithHeadings, ShouldAutoSize, WithSt
                 'Place Of Supply',
                 'Applicable % of Tax Rate',
                 'Rate',
+                //'IGST',
                 'Taxable Value',
                 'Cess Amount',
                 'E-Commerce GSTIN',
@@ -166,10 +182,10 @@ class B2CSExport implements FromCollection, WithHeadings, ShouldAutoSize, WithSt
     {
         return [
             'A' => 12,
-            'C' => 23,
+            'C' => 24,
             'D' => 8,
-            'E' => 15,
             'F' => 15,
+            'G' => 24,
         ];
     }
     public function rowHeight(): array
